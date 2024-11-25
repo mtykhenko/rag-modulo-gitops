@@ -27,7 +27,6 @@ spec:
                 configMapKeyRef:
                   name: postgres-cm
                   key: POSTGRES_DB
-              value: rag_modulo
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretRef:
