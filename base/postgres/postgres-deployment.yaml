@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: postgres
+  name: postgres
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:13
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-cm
+                  key: POSTGRES_DB
+              value: rag_modulo
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretRef:
+                  name: postgres-secret
+                  key: password
+            - name: POSTGRES_USER
+              valueFrom:
+                secretRef:
+                  name: postgres-secret
+                  key: username
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready -U $POSTGRES_USER -d $POSTGRES_DB
+            failureThreshold: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 500m
+              memory: 100Mi
+            limits:
+              cpu: 1000m
+              memory: 256Mi
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
+      restartPolicy: Always
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-data

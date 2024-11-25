@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-cm
+  labels:
+    app: postgres
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+data:
+  POSTGRES_DB: "rag_modulo"
