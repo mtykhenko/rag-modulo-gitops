@@ -21,12 +21,10 @@ spec:
       containers:
         - name: postgres
           image: postgres:13
+          envFrom:
+            - configMapRef:
+                name: postgres-cm 
           env:
-            - name: POSTGRES_DB
-              valueFrom:
-                configMapKeyRef:
-                  name: postgres-cm
-                  key: POSTGRES_DB
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -57,7 +55,6 @@ spec:
           volumeMounts:
             - name: postgres-data 
               mountPath: /var/lib/postgresql/data
-              subPath: pgdata
       restartPolicy: Always
       volumes:
         - name: postgres-data
