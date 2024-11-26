@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  labels:
+    app: minio
+  name: minio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+        - name: milvus-minio
+          image: minio/minio:latest
+          args:
+            - minio
+            - server
+            - /data
+            - --console-address
+            - :9001
+          env:
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-secret
+                  key: accessKey
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-secret
+                  key: secretKey
+          livenessProbe:
+            exec:
+              command:
+                - timeout 
+                - 5s 
+                - bash 
+                - -c 
+                - ':> /dev/tcp/127.0.0.1/9000' 
+                - '||' 
+                - exit 1
+            failureThreshold: 1
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 5
+          ports: 
+            - containerPort: 9000
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 256Gi
+          volumeMounts:
+            - mountPath: /data:Z
+              name: minio-data
+      restartPolicy: Always
+      volumes:
+        - name: minio-data
+          persistentVolumeClaim:
+            claimName: minio-data

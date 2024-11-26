@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  labels:
+    app: etcd
+  name: etcd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: etcd
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: etcd
+    spec:
+      containers:
+        - name: milvus-etcd
+          image: bitnami/etcd:latest
+          ports:
+          - containerPort: 2379
+          env:
+            - name: ALLOW_NONE_AUTHENTICATION
+              value: "yes"
+            - name: ETCD_ADVERTISE_CLIENT_URLS
+              value: http://etcd:2379 
+          livenessProbe:
+            exec:
+              command:
+                - /opt/bitnami/scripts/etcd/healthcheck.sh
+            failureThreshold: 5
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 200m
+              memory: 200Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /bitnami/etcd:Z
+              name: etcd-data
+      restartPolicy: Always
+      volumes:
+        - name: etcd-data
+          persistentVolumeClaim:
+            claimName: etcd-data

@@ -6,3 +6,6 @@ namespace: rag-modulo
 resources:
   - namespace.yaml
   - ../../base
+
+components:
+  - ../../components/milvus
