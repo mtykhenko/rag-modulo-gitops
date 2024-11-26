@@ -8,7 +8,6 @@ resources:
   - minio-data-persistentvolumeclaim.yaml
   - minio-deployment.yaml
   - minio-service.yaml
-  - milvus-serviceaccount.yaml
   - milvus-data-persistentvolumeclaim.yaml
   - milvus-standalone-deployment.yaml
   - milvus-standalone-service.yaml

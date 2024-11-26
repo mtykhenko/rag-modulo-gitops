@@ -7,7 +7,6 @@ metadata:
     app: milvus-standalone
   name: milvus-standalone
 spec:
-  serviceAccountName: milvus-serviceaccount
   replicas: 1
   selector:
     matchLabels:
