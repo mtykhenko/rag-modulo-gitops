@@ -63,7 +63,7 @@ spec:
               protocol: TCP
           volumeMounts:
             - name: milvus-data
-              mountPath: /var/lib/milvus:Z
+              mountPath: /var/lib/milvus
               
       restartPolicy: Always
       volumes:
