@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: milvus-standalone
-          image: milvusdb/milvus:v2.3.3
+          image: milvusdb/milvus:v2.4.6
           args:
             - milvus
             - run
@@ -63,7 +63,6 @@ spec:
           volumeMounts:
             - name: milvus-data
               mountPath: /var/lib/milvus:Z
-              subPath: milvus-data
               
       restartPolicy: Always
       volumes:
