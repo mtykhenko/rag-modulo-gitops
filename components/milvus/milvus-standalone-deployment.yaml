@@ -51,8 +51,10 @@ spec:
             - containerPort: 19530
               protocol: TCP
           volumeMounts:
-            - mountPath: /var/lib/milvus:Z
-              name: milvus-data
+            - name: milvus-data
+              mountPath: /var/lib/milvus:Z
+              subPath: milvus-data
+              
       restartPolicy: Always
       volumes:
         - name: milvus-data
