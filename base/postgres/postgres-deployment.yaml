@@ -55,8 +55,9 @@ spec:
             - containerPort: 5432
               protocol: TCP
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: postgres-data
+            - name: postgres-data 
+              mountPath: /var/lib/postgresql/data
+              subPath: pgdata
       restartPolicy: Always
       volumes:
         - name: postgres-data
