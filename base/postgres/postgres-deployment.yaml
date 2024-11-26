@@ -29,12 +29,12 @@ spec:
                   key: POSTGRES_DB
             - name: POSTGRES_PASSWORD
               valueFrom:
-                secretRef:
+                secretKeyRef:
                   name: postgres-secret
                   key: password
             - name: POSTGRES_USER
               valueFrom:
-                secretRef:
+                secretKeyRef:
                   name: postgres-secret
                   key: username
           livenessProbe:
