@@ -4,7 +4,7 @@ resources:
   - backend-configmap.yaml
   - backend-oidc-configmap.yaml
   - backend-oidc-externalsecret.yaml
-  - backend-jwt-external-secret.yaml
+  - backend-jwt-externalsecret.yaml
   - backend-watsonx-externalsecret.yaml
   - backend-data-persistentvolumeclaim.yaml
   - backend-deployment.yaml

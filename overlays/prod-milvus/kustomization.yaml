@@ -10,12 +10,5 @@ resources:
 components:
   - ../../components/milvus
 
-configMapGenerator:
-  - name: backend-cm
-    behavior: merge
-    literals:
-      - VECTOR_DB=milvus
-      - MILVUS_HOST=milvus-standalone
-      - MILVUS_INDEX_PARAMS=""
-      - MILVUS_PORT=19530
-      - MILVUS_SEARCH_PARAMS=""
+patches:
+  - path: patches/backend-configmap-patch.yaml

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-cm
+data:
+  VECTOR_DB: milvus
+  MILVUS_HOST: milvus-standalone
+  MILVUS_INDEX_PARAMS: ""
+  MILVUS_PORT: "19530"
+  MILVUS_SEARCH_PARAMS: ""
