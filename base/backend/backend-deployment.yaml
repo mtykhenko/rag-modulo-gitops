@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  labels:
+    app: backend
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: ca.icr.io/rag-modulo/backend:1.0.0
+          envFrom:
+            - configMapRef:
+                name: backend-cm 
+            - configMapRef:
+                name: backend-oidc-cm
+          env:
+            - name: IBM_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: backend-oidc-secret
+                  key: ibm-client-id
+            - name: IBM_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: backend-oidc-secret
+                  key: ibm-client-secret
+            - name: COLLECTIONDB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+            - name: COLLECTIONDB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: username
+            - name: COLLECTIONDB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-cm
+                  key: POSTGRES_DB
+            - name: JWT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: backend-jwt-secret
+                  key: jwt-secret-key
+            - name: WATSONX_INSTANCE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: backend-watsonx-secret
+                  key: WATSONX_INSTANCE_ID
+            - name: WATSONX_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: backend-watsonx-secret
+                  key: WATSONX_APIKEY
+          livenessProbe:
+            exec:
+              command:
+                - python
+                - healthcheck.py
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 10
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 500m
+              memory: 256Mi
+            limits:
+              cpu: 1500m
+              memory: 1Gi
+          volumeMounts:
+            - name: backend-data 
+              mountPath: /mnt/data
+      restartPolicy: Always
+      volumes:
+        - name: backend-data
+          persistentVolumeClaim:
+            claimName: backend-data
