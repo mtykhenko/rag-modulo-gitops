@@ -8,3 +8,4 @@ data:
   MILVUS_INDEX_PARAMS: ""
   MILVUS_PORT: "19530"
   MILVUS_SEARCH_PARAMS: ""
+  FRONTEND_URL: https://main.rag-modulo-ocp-e1e34891bbf4e2d3f73400e68a704297-0000.ca-tor.containers.appdomain.cloud
