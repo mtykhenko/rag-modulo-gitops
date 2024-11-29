@@ -37,4 +37,14 @@ spec:
             limits:
               cpu: 500m
               memory: 256Gi
+          volumeMounts:
+            - name: cache
+              mountPath: /var/cache/nginx
+            - name: logs
+              mountPath: /var/log/nginx
       restartPolicy: Always
+      volumes:
+        - name: cache
+          emptyDir: {}
+        - name: logs
+          emptyDir: {}
