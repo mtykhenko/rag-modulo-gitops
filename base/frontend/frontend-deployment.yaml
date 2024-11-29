@@ -16,7 +16,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ca.icr.io/rag-modulo/frontend:1.0.4
           livenessProbe:
             exec:
               command:
