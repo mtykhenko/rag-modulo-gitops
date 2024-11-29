@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ca.icr.io/rag-modulo/frontend:1.0.3
+          livenessProbe:
+            exec:
+              command:
+                - curl
+                - -f
+                - http://localhost:8080
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 10
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Gi
+      restartPolicy: Always
