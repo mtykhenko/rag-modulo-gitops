@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ca.icr.io/rag-modulo/backend:1.0.3
+          image: ca.icr.io/rag-modulo/backend:1.0.4
           envFrom:
             - configMapRef:
                 name: backend-cm 
