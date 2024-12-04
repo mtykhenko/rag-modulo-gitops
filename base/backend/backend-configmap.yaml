@@ -29,3 +29,5 @@ data:
   EMBEDDING_MODEL: sentence-transformers/all-minilm-l6-v2
 
   FILE_STORAGE_PATH: /mnt/data
+
+  WEB_CONCURRENCY: "4"
