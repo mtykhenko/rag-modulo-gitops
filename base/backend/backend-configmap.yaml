@@ -30,4 +30,4 @@ data:
 
   FILE_STORAGE_PATH: /mnt/data
 
-  WEB_CONCURRENCY: "4"
+  WEB_CONCURRENCY: "2"
