@@ -9,14 +9,14 @@ patches:
   - patch: |-
       - op: add
         path: /spec/template/spec/containers/0/image
-        value: ca.icr.io/rag-modulo/backend:1.0.5
+        value: ca.icr.io/rag-modulo/backend:1.0.8
     target:
       kind: Deployment
       name: backend
   - patch: |-
       - op: add
         path: /spec/template/spec/containers/0/image
-        value: ca.icr.io/rag-modulo/frontend:1.0.5
+        value: ca.icr.io/rag-modulo/frontend:1.0.8
     target:
       kind: Deployment
       name: frontend
