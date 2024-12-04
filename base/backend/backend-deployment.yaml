@@ -76,10 +76,10 @@ spec:
               protocol: TCP
           resources:
             requests:
-              cpu: 500m
+              cpu: 1500m
               memory: 256Mi
             limits:
-              cpu: 1500m
+              cpu: 2500m
               memory: 1Gi
           volumeMounts:
             - name: backend-data 
