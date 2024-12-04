@@ -41,11 +41,9 @@ spec:
                   name: minio-secret
                   key: secretKey
           livenessProbe:
-            exec:
-              command:
-                - curl
-                - -f
-                - http://localhost:9091/healthz
+            httpGet:
+              path: /healthz
+              port: 9091
             failureThreshold: 3
             initialDelaySeconds: 40
             periodSeconds: 30

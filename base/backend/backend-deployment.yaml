@@ -63,10 +63,9 @@ spec:
                   name: backend-watsonx-secret
                   key: WATSONX_APIKEY
           livenessProbe:
-            exec:
-              command:
-                - python
-                - healthcheck.py
+            httpGet:
+              path: /api/health
+              port: 8000
             failureThreshold: 3
             initialDelaySeconds: 5
             periodSeconds: 30

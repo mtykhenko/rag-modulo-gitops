@@ -17,11 +17,9 @@ spec:
       containers:
         - name: frontend
           livenessProbe:
-            exec:
-              command:
-                - curl
-                - -f
-                - http://localhost:8080
+            httpGet:
+              path: /
+              port: 8080
             failureThreshold: 3
             initialDelaySeconds: 5
             periodSeconds: 30
